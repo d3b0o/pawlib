@@ -1,4 +1,4 @@
-#include <pwnlib.h>
+#include <pawlib.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -14,8 +14,7 @@ int main() {
 
   t_data payload = init_payload();
   payload_add(&payload, "HELLO\n\x00", 6);
-
-  printf("%s", payload.data);
+  payload_add_repeat(&payload, "AB", 2, 10);
 
   sendline(p, payload);
 }

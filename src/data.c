@@ -35,6 +35,14 @@ void payload_append(t_data *p, uint8_t *data, int size)
   }
 }
 
+void payload_repeat(t_data *p, uint8_t *data, int size, int times)
+{
+  for (int i=0; i<times; i++)
+  {
+    payload_add(p, data, size);
+  }  
+}
+
 int append_byte(t_data *d, uint8_t c)
 {
   if (d->len >= d->size)

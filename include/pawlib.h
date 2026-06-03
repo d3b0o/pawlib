@@ -10,6 +10,7 @@
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
 #define payload_add(p, data, size) payload_append(p, (uint8_t *)(data), size)
+#define payload_add_repeat(p, data, size, times) payload_repeat(p, (uint8_t *)(data), size, times)
 
 typedef struct
 {
@@ -42,6 +43,7 @@ t_data init_data(int size);
 t_data init_data_d();
 t_data init_payload();
 void payload_append(t_data *p, uint8_t *data, int size);
+void payload_repeat(t_data *p, uint8_t *data, int size, int times);
 void clean_data(t_data d);
 
 #endif
