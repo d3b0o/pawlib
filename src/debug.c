@@ -4,7 +4,7 @@
 #include <string.h>
 #include "internal.h"
 
-void debug_bytes(t_data d, int via)
+void paw_debug_bytes(t_data d, int via)
 {
   int bytes_per_line = 16;
   int x;

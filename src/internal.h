@@ -5,8 +5,8 @@
 #include <stddef.h>
 #include "pawlib.h"
 
-void print_status(t_process p);
-void debug_bytes(t_data d, int via);
-int append_byte(t_data *d, uint8_t c);
+void paw_print_status(t_process p);
+void paw_debug_bytes(t_data d, int via);
+int paw_append_byte(t_data *d, uint8_t c);
 
 #endif
