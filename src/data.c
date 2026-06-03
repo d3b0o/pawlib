@@ -58,3 +58,8 @@ void clean_data(t_data d)
 {
   free(d.data);
 }
+
+void paw_add_p64(t_data *d, uintptr_t addr)
+{
+    paw_add(d, &addr, 8);
+}

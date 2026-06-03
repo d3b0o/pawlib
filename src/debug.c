@@ -6,7 +6,7 @@
 
 #include "internal.h"
 
-void paw_debug_bytes(t_data d)
+void paw_debug(t_data d)
 {
   paw_debug_bytes_type(d, 3);
 }
