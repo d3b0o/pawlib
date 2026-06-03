@@ -6,12 +6,12 @@
 
 #include "internal.h"
 
-void paw_debug(t_data d)
+void paw_debug(data d)
 {
   paw_debug_bytes_type(d, 3);
 }
 
-void paw_debug_bytes_type(t_data d, int via)
+void paw_debug_bytes_type(data d, int via)
 {
   int bytes_per_line;
   int max_bytes_per_line = 16;

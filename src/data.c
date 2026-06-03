@@ -5,14 +5,14 @@
 
 #include "internal.h"
 
-t_data paw_init_data()
+data paw_init_data()
 {
   return paw_init_data_size(16);
 }
 
-t_data paw_init_data_size(int size)
+data paw_init_data_size(int size)
 {
-  t_data d;
+  data d;
 
   d.len = 0;
   d.size = size;
@@ -24,14 +24,14 @@ t_data paw_init_data_size(int size)
   return d;
 }
 
-void paw_add_data(t_data *p, uint8_t *data, int size)
+void paw_add_data(data *p, uint8_t *data, int size)
 { 
   for (int i=0; i<size; i++){
     paw_append_byte(p, data[i]);
   }
 }
 
-void paw_add_repeat_data(t_data *p, uint8_t *data, int size, int times)
+void paw_add_repeat_data(data *p, uint8_t *data, int size, int times)
 {
   for (int i=0; i<times; i++)
   {
@@ -39,7 +39,7 @@ void paw_add_repeat_data(t_data *p, uint8_t *data, int size, int times)
   }  
 }
 
-int paw_append_byte(t_data *d, uint8_t c)
+int paw_append_byte(data *d, uint8_t c)
 {
   if (d->len >= d->size)
   {
@@ -55,19 +55,19 @@ int paw_append_byte(t_data *d, uint8_t c)
   return 0;
 }
 
-void clean_data(t_data d)
+void clean_data(data d)
 {
   free(d.data);
 }
 
-void paw_add_p64(t_data *d, addr_t addr)
+void paw_add_p64(data *d, addr addr)
 {
     paw_add(d, &addr, 8);
 }
 
-addr_t paw_u64(t_data d)
+addr paw_u64(data d)
 {
-    addr_t value = 0;
+    addr value = 0;
     memcpy(&value, d.data, d.len);
     return value;
 }

@@ -4,7 +4,7 @@
 
 int main() {
 
-  t_process p = paw_open_process("ls");
+  process p = paw_open_process("ls");
   p.log_level = 0;
 
   paw_recv(p, 2);
@@ -12,7 +12,7 @@ int main() {
   paw_recvline(p);
   paw_recvline(p);
 
-  t_data payload = paw_init_data();
+  data payload = paw_init_data();
   paw_add(&payload, "HELLO\n\x00", 6);
 
   paw_debug(payload);

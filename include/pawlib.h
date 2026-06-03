@@ -19,34 +19,34 @@ typedef struct
     char *name;
     int pid;
     int log_level;
-} t_process;
+} process;
 
 typedef struct
 {
   size_t size;
   uint8_t *data;
   size_t len;
-} t_data;
+} data;
 
-typedef uintptr_t addr_t;
+typedef uintptr_t addr;
 
-t_process paw_open_process(char *file);
+process paw_open_process(char *file);
 
-void paw_sendline(t_process p, t_data d);
-void paw_send(t_process p, t_data d);
+void paw_sendline(process p, data d);
+void paw_send(process p, data d);
 
-t_data paw_recv(t_process p, int size);
-t_data paw_recvline(t_process p);
-t_data paw_recvuntil(t_process p, char *delimiter, int delimiter_len);
+data paw_recv(process p, int size);
+data paw_recvline(process p);
+data paw_recvuntil(process p, char *delimiter, int delimiter_len);
 
 
-t_data paw_init_data_size(int size);
-t_data paw_init_data();
-void paw_add_data(t_data *p, uint8_t *data, int size);
-void paw_add_repeat_data(t_data *p, uint8_t *data, int size, int times);
-void paw_add_p64(t_data *d, uintptr_t addr);
-uintptr_t paw_u64(t_data d);
-void paw_clean_data(t_data d);
+data paw_init_data_size(int size);
+data paw_init_data();
+void paw_add_data(data *p, uint8_t *data, int size);
+void paw_add_repeat_data(data *p, uint8_t *data, int size, int times);
+void paw_add_p64(data *d, uintptr_t addr);
+uintptr_t paw_u64(data d);
+void paw_clean_data(data d);
 
-void paw_debug(t_data d);
+void paw_debug(data d);
 #endif
