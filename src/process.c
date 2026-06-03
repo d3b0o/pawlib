@@ -4,7 +4,7 @@
 #include <string.h>
 #include "internal.h"
 
-void print_status(t_process p)
+void paw_print_status(t_process p)
 {
   printf("[i] Binary loaded\n");
   printf("Name:\t%s\n", p.name);
@@ -12,7 +12,7 @@ void print_status(t_process p)
   printf("\n\n");
 }
 
-t_process open_process(char *file)
+t_process paw_open_process(char *file)
 {
   int pipe_sf[2];
   int pipe_fs[2];
@@ -33,7 +33,7 @@ t_process open_process(char *file)
     p.pid = pid;
     p.log_level = 0;
     
-    print_status(p);
+    paw_print_status(p);
     return p;
   }
   else

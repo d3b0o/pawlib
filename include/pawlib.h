@@ -9,8 +9,8 @@
 #define ANSI_COLOR_GRAY    "\x1b[90m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
-#define payload_add(p, data, size) payload_append(p, (uint8_t *)(data), size)
-#define payload_add_repeat(p, data, size, times) payload_repeat(p, (uint8_t *)(data), size, times)
+#define paw_add(p, data, size) paw_add_data(p, (uint8_t *)(data), size)
+#define paw_add_repeat(p, data, size, times) paw_add_repeat_data(p, (uint8_t *)(data), size, times)
 
 typedef struct
 {
@@ -29,21 +29,20 @@ typedef struct
 } t_data;
 
 
-t_process open_process(char *file);
+t_process paw_open_process(char *file);
 
-void sendline(t_process p, t_data d);
-void pwn_send(t_process p, t_data d);
+void paw_sendline(t_process p, t_data d);
+void paw_send(t_process p, t_data d);
 
-t_data recv(t_process p, int size);
-t_data recvline(t_process p);
-t_data recvuntil(t_process p, char *delimiter, int delimiter_len);
+t_data paw_recv(t_process p, int size);
+t_data paw_recvline(t_process p);
+t_data paw_recvuntil(t_process p, char *delimiter, int delimiter_len);
 
 
-t_data init_data(int size);
-t_data init_data_d();
-t_data init_payload();
-void payload_append(t_data *p, uint8_t *data, int size);
-void payload_repeat(t_data *p, uint8_t *data, int size, int times);
-void clean_data(t_data d);
+t_data paw_init_data_size(int size);
+t_data paw_init_data();
+void paw_add_data(t_data *p, uint8_t *data, int size);
+void paw_add_repeat_data(t_data *p, uint8_t *data, int size, int times);
+void paw_clean_data(t_data d);
 
 #endif

@@ -4,17 +4,12 @@
 #include <string.h>
 #include "internal.h"
 
-t_data init_data_d()
+t_data paw_init_data()
 {
-  return init_data(16);
+  return paw_init_data_size(16);
 }
 
-t_data init_payload()
-{
-  return init_data(16);
-}
-
-t_data init_data(int size)
+t_data paw_init_data_size(int size)
 {
   t_data d;
 
@@ -28,22 +23,22 @@ t_data init_data(int size)
   return d;
 }
 
-void payload_append(t_data *p, uint8_t *data, int size)
+void paw_add_data(t_data *p, uint8_t *data, int size)
 { 
   for (int i=0; i<size; i++){
-    append_byte(p, data[i]);
+    paw_append_byte(p, data[i]);
   }
 }
 
-void payload_repeat(t_data *p, uint8_t *data, int size, int times)
+void paw_add_repeat_data(t_data *p, uint8_t *data, int size, int times)
 {
   for (int i=0; i<times; i++)
   {
-    payload_add(p, data, size);
+    paw_add_data(p, data, size);
   }  
 }
 
-int append_byte(t_data *d, uint8_t c)
+int paw_append_byte(t_data *d, uint8_t c)
 {
   if (d->len >= d->size)
   {

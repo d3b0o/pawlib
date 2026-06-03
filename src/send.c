@@ -4,15 +4,15 @@
 #include <string.h>
 #include "internal.h"
 
-void sendline(t_process p, t_data d)
+void paw_sendline(t_process p, t_data d)
 {
-  append_byte(&d, 0xa);
-  pwn_send(p, d);
+  paw_append_byte(&d, 0xa);
+  paw_send(p, d);
 }
 
-void pwn_send(t_process p, t_data d)
+void paw_send(t_process p, t_data d)
 {
   write(p.pin, d.data, d.len);
   if (p.log_level < 2)
-    debug_bytes(d, 1);
+    paw_debug_bytes(d, 1);
 }
