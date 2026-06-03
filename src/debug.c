@@ -20,7 +20,8 @@ void paw_debug_bytes(t_data d, int via)
 
   bytes_per_line = (w.ws_col - 20) / 4;
   bytes_per_line = (bytes_per_line / 4) * 4;
-  if (bytes_per_line > max_bytes_per_line) {
+
+  if (bytes_per_line > max_bytes_per_line || bytes_per_line < 4) {
     bytes_per_line = max_bytes_per_line;
   }
 
