@@ -1,8 +1,13 @@
 # pawlib
 
 ```
+git clone https://github.com/d3b0o/pawlib 
+cd pawlib
 sudo make install
 make clean
+```
+
+```
 make example
 ```
 
