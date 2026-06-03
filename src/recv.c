@@ -10,7 +10,7 @@ t_data paw_recv(t_process p, int size)
   d.len = read(p.pout, d.data, d.size);
 
   if (p.log_level < 2)
-    paw_debug_bytes(d, 0);
+    paw_debug_bytes_type(d, 0);
 
   return d;
 }
@@ -28,7 +28,7 @@ t_data paw_recvline(t_process p)
   }
 
   if (p.log_level < 2)
-    paw_debug_bytes(d, 0);
+    paw_debug_bytes_type(d, 0);
   return d;
 }
 
@@ -45,7 +45,7 @@ t_data paw_recvuntil(t_process p, char *delimiter, int delimiter_len)
   }
 
   if (p.log_level < 2)
-    paw_debug_bytes(d, 0);
+    paw_debug_bytes_type(d, 0);
 
   return d;
 }

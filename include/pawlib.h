@@ -45,4 +45,5 @@ void paw_add_data(t_data *p, uint8_t *data, int size);
 void paw_add_repeat_data(t_data *p, uint8_t *data, int size, int times);
 void paw_clean_data(t_data d);
 
+void paw_debug_bytes(t_data d);
 #endif
