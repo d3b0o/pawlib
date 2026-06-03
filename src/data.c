@@ -42,7 +42,7 @@ int paw_append_byte(t_data *d, uint8_t c)
 {
   if (d->len >= d->size)
   {
-    d->size += d->size;
+    d->size += 16;
     uint8_t *new_buff = realloc(d->data, sizeof(uint8_t) * d->size);
     if (!new_buff) {
       return 1;
