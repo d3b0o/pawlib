@@ -2,14 +2,28 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/ioctl.h>
+
 #include "internal.h"
 
 void paw_debug_bytes(t_data d, int via)
 {
-  int bytes_per_line = 16;
+  int bytes_per_line;
+  int max_bytes_per_line = 16;
   int x;
   char current_byte;
+  int other = 50;
   size_t max_index = d.len - 1;
+  struct winsize w;
+
+  ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+
+  bytes_per_line = (w.ws_col - 20) / 4;
+  bytes_per_line = (bytes_per_line / 4) * 4;
+  if (bytes_per_line > max_bytes_per_line) {
+    bytes_per_line = max_bytes_per_line;
+  }
+
   for (int i=0; i<d.len; i+=bytes_per_line)
   {
     if (via == 0) {
