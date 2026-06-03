@@ -15,7 +15,7 @@ int main() {
   t_data payload = paw_init_data();
   paw_add(&payload, "HELLO\n\x00", 6);
 
-  paw_debug_bytes(payload);
+  paw_debug(payload);
 
   paw_add_repeat(&payload, "AB", 2, 10);
   
