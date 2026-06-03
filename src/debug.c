@@ -16,7 +16,7 @@ void paw_debug_bytes_type(t_data d, int via)
   int bytes_per_line;
   int max_bytes_per_line = 16;
   int x;
-  char current_byte;
+  uint8_t current_byte;
   int other = 50;
   size_t max_index = d.len - 1;
   struct winsize w;
