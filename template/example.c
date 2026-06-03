@@ -4,7 +4,6 @@
 
 int main()
 {
-
     process p   = paw_open_process( "ls" );
     p.log_level = 0;
 

@@ -1,11 +1,15 @@
+#include "internal.h"
+
+#include <dlfcn.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-#include "internal.h"
-
-data paw_init_data() { return paw_init_data_size( 16 ); }
+data paw_init_data()
+{
+    return paw_init_data_size( 16 );
+}
 
 data paw_init_data_size( int size )
 {
@@ -55,9 +59,15 @@ int paw_append_byte( data *d, uint8_t c )
     return 0;
 }
 
-void clean_data( data d ) { free( d.data ); }
+void clean_data( data d )
+{
+    free( d.data );
+}
 
-void paw_add_p64( data *d, addr addr ) { paw_add( d, &addr, 8 ); }
+void paw_add_p64( data *d, addr addr )
+{
+    paw_add( d, &addr, 8 );
+}
 
 addr paw_u64( data d )
 {

@@ -1,12 +1,15 @@
+#include "internal.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 
-#include "internal.h"
-
-void paw_debug( data d ) { paw_debug_bytes_type( d, 3 ); }
+void paw_debug( data d )
+{
+    paw_debug_bytes_type( d, 3 );
+}
 
 void paw_debug_bytes_type( data d, int via )
 {

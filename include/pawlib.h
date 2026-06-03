@@ -9,9 +9,9 @@
 #define ANSI_COLOR_GRAY  "\x1b[90m"
 #define ANSI_COLOR_RESET "\x1b[0m"
 
-#define paw_add( p, data, size ) paw_add_data( p, (uint8_t *)( data ), size )
+#define paw_add( p, data, size ) paw_add_data( p, (uint8_t *) ( data ), size )
 #define paw_add_repeat( p, data, size, times )                                                     \
-    paw_add_repeat_data( p, (uint8_t *)( data ), size, times )
+    paw_add_repeat_data( p, (uint8_t *) ( data ), size, times )
 
 typedef struct
 {

@@ -4,7 +4,6 @@
 #include <stdlib.h>
 int main()
 {
-
     process p   = paw_open_process( "./restaurant_patched" );
     p.log_level = 0;
 

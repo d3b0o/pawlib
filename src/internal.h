@@ -2,6 +2,7 @@
 #define INTERNAL_H
 
 #include "pawlib.h"
+
 #include <stddef.h>
 #include <stdint.h>
 
