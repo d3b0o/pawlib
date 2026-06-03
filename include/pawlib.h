@@ -28,6 +28,7 @@ typedef struct
   size_t len;
 } t_data;
 
+typedef uintptr_t addr_t;
 
 t_process paw_open_process(char *file);
 

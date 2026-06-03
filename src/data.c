@@ -60,14 +60,14 @@ void clean_data(t_data d)
   free(d.data);
 }
 
-void paw_add_p64(t_data *d, uintptr_t addr)
+void paw_add_p64(t_data *d, addr_t addr)
 {
     paw_add(d, &addr, 8);
 }
 
-uintptr_t paw_u64(t_data d)
+addr_t paw_u64(t_data d)
 {
-    uintptr_t value = 0;
+    addr_t value = 0;
     memcpy(&value, d.data, d.len);
     return value;
 }
