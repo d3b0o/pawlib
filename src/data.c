@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+
 #include "internal.h"
 
 t_data paw_init_data()
@@ -62,4 +63,11 @@ void clean_data(t_data d)
 void paw_add_p64(t_data *d, uintptr_t addr)
 {
     paw_add(d, &addr, 8);
+}
+
+uintptr_t paw_u64(t_data d)
+{
+    uintptr_t value = 0;
+    memcpy(&value, d.data, d.len);
+    return value;
 }

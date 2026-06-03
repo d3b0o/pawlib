@@ -44,6 +44,7 @@ t_data paw_init_data();
 void paw_add_data(t_data *p, uint8_t *data, int size);
 void paw_add_repeat_data(t_data *p, uint8_t *data, int size, int times);
 void paw_add_p64(t_data *d, uintptr_t addr);
+uintptr_t paw_u64(t_data d);
 void paw_clean_data(t_data d);
 
 void paw_debug(t_data d);
