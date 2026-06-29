@@ -66,7 +66,7 @@ void clean_data( data d )
 
 void paw_add_p64( data *d, addr addr )
 {
-    paw_add( d, &addr, 8 );
+    paw_add_data( d, (uint8_t *) &addr, sizeof( addr ) );
 }
 
 addr paw_u64( data d )

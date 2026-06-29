@@ -35,7 +35,7 @@ data paw_recvline( process p )
     return d;
 }
 
-data paw_recvuntil( process p, char *delimiter, int delimiter_len )
+data paw_recvuntil_n( process p, char *delimiter, int delimiter_len )
 {
     data    d = paw_init_data();
     uint8_t b;
