@@ -40,13 +40,13 @@ data paw_recv( process p, int size );
 data paw_recvline( process p );
 data paw_recvuntil( process p, char *delimiter, int delimiter_len );
 
-data      paw_init_data_size( int size );
-data      paw_init_data();
-void      paw_add_data( data *p, uint8_t *data, int size );
-void      paw_add_repeat_data( data *p, uint8_t *data, int size, int times );
-void      paw_add_p64( data *d, uintptr_t addr );
-uintptr_t paw_u64( data d );
-void      paw_clean_data( data d );
+data paw_init_data_size( int size );
+data paw_init_data();
+void paw_add_data( data *p, uint8_t *data, int size );
+void paw_add_repeat_data( data *p, uint8_t *data, int size, int times );
+void paw_add_p64( data *d, uintptr_t addr );
+addr paw_u64( data d );
+void paw_clean_data( data d );
 
 void paw_debug( data d );
 #endif
