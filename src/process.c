@@ -21,8 +21,6 @@ process paw_open_process( char *file )
     pipe( pipe_fs );
     process p;
 
-    char c = 'X';
-
     int pid;
     pid = fork();
 

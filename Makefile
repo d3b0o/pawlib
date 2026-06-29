@@ -1,7 +1,7 @@
 # -Wall -Wextra -Werro
 NAME    := pawlib
 CC      := gcc
-CFLAGS  := -Iinclude -Isrc
+CFLAGS  := -Iinclude -Isrc -Wall -Wextra
 
 SRCS    := $(wildcard src/*.c)
 PREFIX  := /usr/local
