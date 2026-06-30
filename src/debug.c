@@ -135,7 +135,13 @@ static void paw_expand_cmd( char *out, size_t out_size, const char *tmpl, int pi
 void paw_attach_n( process *p, char *cmds[], int n, char *terminal )
 {
     char        cmd[1024];
-    const char *tmpl = terminal ? terminal : "tmux split-window -h 'gdb -p {pid} -x {script}'";
+    /* -iex runs before the attach, so the attach-stop (inside raise()/glibc)
+     * prints only the location, not the missing glibc source line. The script
+     * restores 'auto' afterwards so the user's breakpoints show source. */
+    const char *tmpl =
+        terminal ? terminal
+                 : "tmux split-window -h 'gdb -p {pid} -iex \"set print frame-info "
+                   "location\" -x {script}'";
 
     if ( !paw_argflag( "GDB" ) )
         return;
@@ -143,6 +149,7 @@ void paw_attach_n( process *p, char *cmds[], int n, char *terminal )
     FILE *f = fopen( "/tmp/paw_gdb", "w" );
     if ( f )
     {
+        fprintf( f, "set print frame-info auto\n" );
         fprintf( f, "handle SIGSTOP nostop noprint nopass\n" );
 
         for ( int i = 0; i < n; i++ )

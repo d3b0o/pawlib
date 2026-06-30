@@ -5,7 +5,7 @@
 void setup( process *p )
 {
     char *cmds[] = { "b main" };
-    paw_attach( p, cmds, "tmux split-window -h 'gdb -p {pid} -x {script}'" );
+    paw_attach( p, cmds, NULL );
 }
 
 int main()
