@@ -93,15 +93,52 @@ void paw_debug_bytes_type( data d, int via )
     printf( "\n" );
 }
 
-void paw_attach_n( process *p, char *cmds[], int n )
+static void paw_expand_cmd( char *out, size_t out_size, const char *tmpl, int pid,
+                            const char *script )
 {
-    char cmd[512];
+    char   pidstr[16];
+    size_t o = 0;
 
-    if ( !getenv( "TMUX" ) )
+    snprintf( pidstr, sizeof( pidstr ), "%d", pid );
+
+    for ( size_t i = 0; tmpl[i] && o < out_size - 1; )
     {
-        fprintf( stderr, ANSI_COLOR_RED "paw_attach: must be run inside tmux\n" ANSI_COLOR_RESET );
-        return;
+        const char *sub = NULL;
+        size_t      tok = 0;
+
+        if ( strncmp( &tmpl[i], "{pid}", 5 ) == 0 )
+        {
+            sub = pidstr;
+            tok = 5;
+        }
+        else if ( strncmp( &tmpl[i], "{script}", 8 ) == 0 )
+        {
+            sub = script;
+            tok = 8;
+        }
+
+        if ( sub )
+        {
+            while ( *sub && o < out_size - 1 )
+                out[o++] = *sub++;
+            i += tok;
+        }
+        else
+        {
+            out[o++] = tmpl[i++];
+        }
     }
+
+    out[o] = '\0';
+}
+
+void paw_attach_n( process *p, char *cmds[], int n, char *terminal )
+{
+    char        cmd[1024];
+    const char *tmpl = terminal ? terminal : "tmux split-window -h 'gdb -p {pid} -x {script}'";
+
+    if ( !getenv( "GDB" ) )
+        return;
 
     if ( cmds && n > 0 )
     {
@@ -112,12 +149,8 @@ void paw_attach_n( process *p, char *cmds[], int n )
                 fprintf( f, "%s\n", cmds[i] );
             fclose( f );
         }
-        snprintf( cmd, sizeof( cmd ), "tmux split-window -h 'gdb -p %d -x /tmp/paw_gdb'", p->pid );
-    }
-    else
-    {
-        snprintf( cmd, sizeof( cmd ), "tmux split-window -h 'gdb -p %d'", p->pid );
     }
 
+    paw_expand_cmd( cmd, sizeof( cmd ), tmpl, p->pid, "/tmp/paw_gdb" );
     system( cmd );
 }

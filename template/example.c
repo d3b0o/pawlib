@@ -8,7 +8,7 @@ int main()
     p->log_level = 0;
 
     char *cmds[] = { "b main" };
-    paw_attach( p, cmds );
+    paw_attach( p, cmds, "tmux split-window -h 'gdb -p {pid} -x {script}'" );
 
     paw_recv( p, 2 );
     paw_recvuntil( p, "src" );
