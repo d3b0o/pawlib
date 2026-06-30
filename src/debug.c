@@ -148,6 +148,8 @@ void paw_attach_n( process *p, char *cmds[], int n, char *terminal )
         for ( int i = 0; i < n; i++ )
             fprintf( f, "%s\n", cmds[i] );
 
+        fprintf( f, "continue\n" );
+
         fclose( f );
     }
 
