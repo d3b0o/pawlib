@@ -99,7 +99,7 @@ void paw_attach_n( process *p, char *cmds[], int n )
 
     if ( !getenv( "TMUX" ) )
     {
-        fprintf( stderr, "[!] paw_attach necesita correr dentro de tmux\n" );
+        fprintf( stderr, ANSI_COLOR_RED "paw_attach: must be run inside tmux\n" ANSI_COLOR_RESET );
         return;
     }
 
@@ -120,4 +120,7 @@ void paw_attach_n( process *p, char *cmds[], int n )
     }
 
     system( cmd );
+
+    const char *file = "/tmp/paw_gdb";
+    remove( file );
 }
