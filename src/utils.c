@@ -1,0 +1,13 @@
+#include "internal.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+void paw_close( process *p )
+{
+    close( p->pin );
+    close( p->pout );
+    waitpid( p->pid, NULL, 0 );
+}

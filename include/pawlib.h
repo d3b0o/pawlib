@@ -50,4 +50,5 @@ addr paw_u64( data d );
 void paw_free( data d );
 
 void paw_debug( data d );
+void paw_close( process *p );
 #endif

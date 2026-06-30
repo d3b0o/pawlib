@@ -1,4 +1,3 @@
-# -Wall -Wextra -Werro
 NAME    := pawlib
 CC      := gcc
 CFLAGS  := -Iinclude -Isrc -Wall -Wextra

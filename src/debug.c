@@ -17,7 +17,6 @@ void paw_debug_bytes_type( data d, int via )
     int            max_bytes_per_line = 16;
     int            x;
     uint8_t        current_byte;
-    int            other     = 50;
     size_t         max_index = d.len - 1;
     struct winsize w;
 
@@ -31,7 +30,7 @@ void paw_debug_bytes_type( data d, int via )
         bytes_per_line = max_bytes_per_line;
     }
 
-    for ( int i = 0; i < d.len; i += bytes_per_line )
+    for ( size_t i = 0; i < d.len; i += bytes_per_line )
     {
         if ( via == 0 )
         {
@@ -45,9 +44,9 @@ void paw_debug_bytes_type( data d, int via )
         {
             printf( ANSI_COLOR_GRAY "-- " ANSI_COLOR_RESET );
         }
-        printf( ANSI_COLOR_GRAY "%0.8x: " ANSI_COLOR_RESET, i );
+        printf( ANSI_COLOR_GRAY "%0.8zx: " ANSI_COLOR_RESET, i );
 
-        for ( x = 0; x < bytes_per_line; x++ )
+        for ( int x = 0; x < bytes_per_line; x++ )
         {
             if ( x % 4 == 0 && x > 0 )
             {

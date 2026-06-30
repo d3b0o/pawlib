@@ -65,4 +65,6 @@ int main()
     paw_recv( p, 200 );
     paw_sendline( p, payload4 );
     paw_recv( p, 200 );
+
+    paw_close( &p );
 }

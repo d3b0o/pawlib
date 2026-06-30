@@ -20,4 +20,6 @@ int main()
     paw_add_repeat( &payload, "AB", 10 );
 
     paw_sendline( p, payload );
+
+    paw_close( &p );
 }
