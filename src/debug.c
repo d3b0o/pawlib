@@ -109,7 +109,7 @@ void paw_attach_n( process *p, char *cmds[], int n )
         if ( f )
         {
             for ( int i = 0; i < n; i++ )
-                fprintf( f, "%s\n", cmds[i] );  // un comando por línea
+                fprintf( f, "%s\n", cmds[i] );
             fclose( f );
         }
         snprintf( cmd, sizeof( cmd ), "tmux split-window -h 'gdb -p %d -x /tmp/paw_gdb'", p->pid );
@@ -120,7 +120,4 @@ void paw_attach_n( process *p, char *cmds[], int n )
     }
 
     system( cmd );
-
-    const char *file = "/tmp/paw_gdb";
-    remove( file );
 }
