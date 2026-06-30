@@ -78,7 +78,7 @@ process *paw_open_process( char *file )
     p->pin       = pipe_fs[1];
     p->pout      = pipe_sf[0];
     p->pid       = pid;
-    p->log_level = 0;
+    p->log_level = 1;
 
     paw_print_status( p );
     return p;
