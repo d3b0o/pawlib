@@ -30,7 +30,7 @@ install: $(LIB)
 	$(LDCACHE)
 
 example: $(LIB)
-	$(CC) $(CFLAGS) template/example.c -o example -L. -l$(NAME)
+	$(CC) $(CFLAGS) template/example.c -o example -L. -l$(NAME) -Wl,-rpath,'$$ORIGIN'
 	./example
 
 clean:
