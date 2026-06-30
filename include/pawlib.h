@@ -13,7 +13,8 @@
 #define paw_recvuntil( p, s ) paw_recvuntil_n( ( p ), ( s ), sizeof( s ) - 1 )
 #define paw_add_repeat( p, s, times )                                                              \
     paw_add_repeat_data( ( p ), (uint8_t *) ( s ), sizeof( s ) - 1, ( times ) )
-
+#define paw_attach( p, cmds )                                                                      \
+    paw_attach_n( ( p ), ( cmds ), sizeof( cmds ) / sizeof( ( cmds )[0] ) )
 typedef struct
 {
     int   pin;
@@ -50,5 +51,8 @@ addr paw_u64( data d );
 void paw_free( data d );
 
 void paw_debug( data d );
+void paw_attach_n( process *p, char *cmds[], int n );
+
 void paw_close( process *p );
+
 #endif

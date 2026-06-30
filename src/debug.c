@@ -92,3 +92,32 @@ void paw_debug_bytes_type( data d, int via )
 
     printf( "\n" );
 }
+
+void paw_attach_n( process *p, char *cmds[], int n )
+{
+    char cmd[512];
+
+    if ( !getenv( "TMUX" ) )
+    {
+        fprintf( stderr, "[!] paw_attach necesita correr dentro de tmux\n" );
+        return;
+    }
+
+    if ( cmds && n > 0 )
+    {
+        FILE *f = fopen( "/tmp/paw_gdb", "w" );
+        if ( f )
+        {
+            for ( int i = 0; i < n; i++ )
+                fprintf( f, "%s\n", cmds[i] );  // un comando por línea
+            fclose( f );
+        }
+        snprintf( cmd, sizeof( cmd ), "tmux split-window -h 'gdb -p %d -x /tmp/paw_gdb'", p->pid );
+    }
+    else
+    {
+        snprintf( cmd, sizeof( cmd ), "tmux split-window -h 'gdb -p %d'", p->pid );
+    }
+
+    system( cmd );
+}

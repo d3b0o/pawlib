@@ -4,7 +4,10 @@
 
 int main()
 {
-    process p   = paw_open_process( "ls" );
+    process p      = paw_open_process( "ls" );
+    char   *cmds[] = { "b main" };
+    paw_attach( &p, cmds );
+
     p.log_level = 0;
 
     paw_recv( p, 2 );
