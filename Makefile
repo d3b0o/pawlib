@@ -33,7 +33,10 @@ example: $(LIB)
 	$(CC) $(CFLAGS) template/example.c -o example -L. -l$(NAME) -Wl,-rpath,'$$ORIGIN'
 	./example
 
-clean:
-	rm -f $(LIB) example
+example_solver: $(LIB)
+	$(CC) $(CFLAGS) template/example_solver.c -o example_solver -L. -l$(NAME) -Wl,-rpath,'$$ORIGIN'
 
-.PHONY: all install example clean
+clean:
+	rm -f $(LIB) example example_solver
+
+.PHONY: all install example example_solver clean

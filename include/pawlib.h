@@ -33,6 +33,8 @@ typedef struct
 
 typedef uintptr_t addr;
 
+void paw_args( int argc, char **argv );
+
 process *paw_open_process( char *file );
 
 void paw_sendline( process *p, data d );

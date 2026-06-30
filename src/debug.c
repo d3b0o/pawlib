@@ -137,7 +137,7 @@ void paw_attach_n( process *p, char *cmds[], int n, char *terminal )
     char        cmd[1024];
     const char *tmpl = terminal ? terminal : "tmux split-window -h 'gdb -p {pid} -x {script}'";
 
-    if ( !getenv( "GDB" ) )
+    if ( !paw_argflag( "GDB" ) )
         return;
 
     FILE *f = fopen( "/tmp/paw_gdb", "w" );

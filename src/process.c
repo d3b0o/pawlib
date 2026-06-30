@@ -57,10 +57,9 @@ process *paw_open_process( char *file )
         close( pipe_fs[0] );
         close( pipe_fs[1] );
 
-        if ( getenv( "GDB" ) )
+        if ( paw_argflag( "GDB" ) )
         {
 #ifdef __linux__
-            /* Allow any debugger to attach despite Yama ptrace_scope. */
             prctl( PR_SET_PTRACER, PR_SET_PTRACER_ANY, 0, 0, 0 );
 #endif
             raise( SIGSTOP );

