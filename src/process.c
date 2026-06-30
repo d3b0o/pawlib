@@ -5,18 +5,22 @@
 #include <string.h>
 #include <unistd.h>
 
-void paw_print_status( process p )
+void paw_print_status( process *p )
 {
-    printf( "[i] Binary loaded\n" );
-    printf( "Name:\t%s\n", p.name );
-    printf( "pid:\t%d\n", p.pid );
-    printf( "\n\n" );
+    printf( "Name:\t%s\n", p->name );
+    printf( "PID:\t%d\n", p->pid );
 }
 
-process paw_open_process( char *file )
+process *paw_open_process( char *file )
 {
-    int     pipe_sf[2], pipe_fs[2];
-    process p;
+    int      pipe_sf[2], pipe_fs[2];
+    process *p = malloc( sizeof( process ) );
+
+    if ( p == NULL )
+    {
+        perror( "malloc" );
+        exit( 1 );
+    }
 
     if ( pipe( pipe_sf ) == -1 || pipe( pipe_fs ) == -1 )
     {
@@ -49,11 +53,11 @@ process paw_open_process( char *file )
     close( pipe_sf[1] );
     close( pipe_fs[0] );
 
-    p.name      = file;
-    p.pin       = pipe_fs[1];
-    p.pout      = pipe_sf[0];
-    p.pid       = pid;
-    p.log_level = 0;
+    p->name      = file;
+    p->pin       = pipe_fs[1];
+    p->pout      = pipe_sf[0];
+    p->pid       = pid;
+    p->log_level = 0;
 
     paw_print_status( p );
     return p;

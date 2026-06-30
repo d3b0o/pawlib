@@ -33,14 +33,14 @@ typedef struct
 
 typedef uintptr_t addr;
 
-process paw_open_process( char *file );
+process *paw_open_process( char *file );
 
-void paw_sendline( process p, data d );
-void paw_send( process p, data d );
+void paw_sendline( process *p, data d );
+void paw_send( process *p, data d );
 
-data paw_recv( process p, int size );
-data paw_recvline( process p );
-data paw_recvuntil_n( process p, char *delimiter, int delimiter_len );
+data paw_recv( process *p, int size );
+data paw_recvline( process *p );
+data paw_recvuntil_n( process *p, char *delimiter, int delimiter_len );
 
 data paw_init_data_size( int size );
 data paw_init_data();

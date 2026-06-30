@@ -4,11 +4,11 @@
 
 int main()
 {
-    process p      = paw_open_process( "ls" );
-    char   *cmds[] = { "b main" };
-    paw_attach( &p, cmds );
+    process *p   = paw_open_process( "ls" );
+    p->log_level = 0;
 
-    p.log_level = 0;
+    char *cmds[] = { "b main" };
+    paw_attach( p, cmds );
 
     paw_recv( p, 2 );
     paw_recvuntil( p, "src" );
@@ -24,5 +24,5 @@ int main()
 
     paw_sendline( p, payload );
 
-    paw_close( &p );
+    paw_close( p );
 }
