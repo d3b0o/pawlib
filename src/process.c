@@ -6,6 +6,16 @@
 #include <string.h>
 #include <unistd.h>
 
+#ifdef __linux__
+#include <sys/prctl.h>
+#ifndef PR_SET_PTRACER
+#define PR_SET_PTRACER 0x59616d61
+#endif
+#ifndef PR_SET_PTRACER_ANY
+#define PR_SET_PTRACER_ANY ( (unsigned long) -1 )
+#endif
+#endif
+
 void paw_print_status( process *p )
 {
     printf( "Name:\t%s\n", p->name );
@@ -48,7 +58,13 @@ process *paw_open_process( char *file )
         close( pipe_fs[1] );
 
         if ( getenv( "GDB" ) )
+        {
+#ifdef __linux__
+            /* Allow any debugger to attach despite Yama ptrace_scope. */
+            prctl( PR_SET_PTRACER, PR_SET_PTRACER_ANY, 0, 0, 0 );
+#endif
             raise( SIGSTOP );
+        }
 
         char *args[] = { file, NULL };
         execvp( file, args );
