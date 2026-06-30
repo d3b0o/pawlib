@@ -1,5 +1,6 @@
 #include "internal.h"
 
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -135,13 +136,7 @@ static void paw_expand_cmd( char *out, size_t out_size, const char *tmpl, int pi
 void paw_attach_n( process *p, char *cmds[], int n, char *terminal )
 {
     char        cmd[1024];
-    /* -iex runs before the attach, so the attach-stop (inside raise()/glibc)
-     * prints only the location, not the missing glibc source line. The script
-     * restores 'auto' afterwards so the user's breakpoints show source. */
-    const char *tmpl =
-        terminal ? terminal
-                 : "tmux split-window -h 'gdb -p {pid} -iex \"set print frame-info "
-                   "location\" -x {script}'";
+    const char *tmpl = terminal ? terminal : "tmux split-window -h 'gdb -p {pid} -x {script}'";
 
     if ( !paw_argflag( "GDB" ) )
         return;
@@ -149,8 +144,9 @@ void paw_attach_n( process *p, char *cmds[], int n, char *terminal )
     FILE *f = fopen( "/tmp/paw_gdb", "w" );
     if ( f )
     {
-        fprintf( f, "set print frame-info auto\n" );
         fprintf( f, "handle SIGSTOP nostop noprint nopass\n" );
+        fprintf( f, "catch exec\n" );
+        fprintf( f, "continue\n" );
 
         for ( int i = 0; i < n; i++ )
             fprintf( f, "%s\n", cmds[i] );
@@ -161,5 +157,11 @@ void paw_attach_n( process *p, char *cmds[], int n, char *terminal )
     }
 
     paw_expand_cmd( cmd, sizeof( cmd ), tmpl, p->pid, "/tmp/paw_gdb" );
-    system( cmd );
+
+    if ( system( cmd ) != 0 )
+    {
+        fprintf( stderr, ANSI_COLOR_RED "paw_attach: terminal command failed; "
+                                        "running without gdb\n" ANSI_COLOR_RESET );
+        kill( p->pid, SIGCONT );
+    }
 }
