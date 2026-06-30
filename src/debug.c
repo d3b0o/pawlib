@@ -44,7 +44,7 @@ void paw_debug_bytes_type( data d, int via )
         {
             printf( ANSI_COLOR_GRAY "-- " ANSI_COLOR_RESET );
         }
-        printf( ANSI_COLOR_GRAY "%0.8zx: " ANSI_COLOR_RESET, i );
+        printf( ANSI_COLOR_GRAY "%08zx: " ANSI_COLOR_RESET, i );
 
         for ( int x = 0; x < bytes_per_line; x++ )
         {
@@ -65,7 +65,7 @@ void paw_debug_bytes_type( data d, int via )
                 }
                 else
                 {
-                    printf( ANSI_COLOR_RED "%0.2x " ANSI_COLOR_RESET, current_byte );
+                    printf( ANSI_COLOR_RED "%02x " ANSI_COLOR_RESET, current_byte );
                 }
             }
         }
