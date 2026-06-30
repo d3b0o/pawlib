@@ -140,15 +140,15 @@ void paw_attach_n( process *p, char *cmds[], int n, char *terminal )
     if ( !getenv( "GDB" ) )
         return;
 
-    if ( cmds && n > 0 )
+    FILE *f = fopen( "/tmp/paw_gdb", "w" );
+    if ( f )
     {
-        FILE *f = fopen( "/tmp/paw_gdb", "w" );
-        if ( f )
-        {
-            for ( int i = 0; i < n; i++ )
-                fprintf( f, "%s\n", cmds[i] );
-            fclose( f );
-        }
+        fprintf( f, "handle SIGSTOP nostop noprint nopass\n" );
+
+        for ( int i = 0; i < n; i++ )
+            fprintf( f, "%s\n", cmds[i] );
+
+        fclose( f );
     }
 
     paw_expand_cmd( cmd, sizeof( cmd ), tmpl, p->pid, "/tmp/paw_gdb" );
