@@ -2,13 +2,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main()
+void setup( process *p )
 {
-    process *p   = paw_open_process( "ls" );
-    p->log_level = 0;
-
     char *cmds[] = { "b main" };
     paw_attach( p, cmds, "tmux split-window -h 'gdb -p {pid} -x {script}'" );
+}
+
+int main()
+{
+    process *p = paw_open_process( "ls" );
+
+    setup( p );
 
     paw_recv( p, 2 );
     paw_recvuntil( p, "src" );

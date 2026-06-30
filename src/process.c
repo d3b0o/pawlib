@@ -47,6 +47,9 @@ process *paw_open_process( char *file )
         close( pipe_fs[0] );
         close( pipe_fs[1] );
 
+        if ( getenv( "GDB" ) )
+            raise( SIGSTOP );
+
         char *args[] = { file, NULL };
         execvp( file, args );
         perror( "execvp" );
