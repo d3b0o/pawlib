@@ -1,5 +1,6 @@
 #include "internal.h"
 
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,6 +16,8 @@ process *paw_open_process( char *file )
 {
     int      pipe_sf[2], pipe_fs[2];
     process *p = malloc( sizeof( process ) );
+
+    signal( SIGPIPE, SIG_IGN );
 
     if ( p == NULL )
     {
