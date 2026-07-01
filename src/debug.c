@@ -1,5 +1,6 @@
 #include "internal.h"
 
+#include <poll.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>

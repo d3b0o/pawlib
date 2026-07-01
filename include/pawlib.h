@@ -22,6 +22,7 @@ typedef struct
     char *name;
     int   pid;
     int   log_level;
+    int   sync_r;
 } process;
 
 typedef struct
