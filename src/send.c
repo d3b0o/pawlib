@@ -5,15 +5,17 @@
 #include <string.h>
 #include <unistd.h>
 
-void paw_sendline( process p, data d )
+void paw_sendline( process *p, data d )
 {
     paw_append_byte( &d, 0xa );
     paw_send( p, d );
 }
 
-void paw_send( process p, data d )
+void paw_send( process *p, data d )
 {
-    write( p.pin, d.data, d.len );
-    if ( p.log_level < 2 )
+    ssize_t n = write( p->pin, d.data, d.len );
+    if ( n == -1 )
+        perror( "paw_send: write" );
+    if ( paw_argflag( "DEBUG" ) && p->log_level >= 1 )
         paw_debug_bytes_type( d, 1 );
 }

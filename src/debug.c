@@ -1,5 +1,7 @@
 #include "internal.h"
 
+#include <poll.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,7 +19,6 @@ void paw_debug_bytes_type( data d, int via )
     int            max_bytes_per_line = 16;
     int            x;
     uint8_t        current_byte;
-    int            other     = 50;
     size_t         max_index = d.len - 1;
     struct winsize w;
 
@@ -31,7 +32,7 @@ void paw_debug_bytes_type( data d, int via )
         bytes_per_line = max_bytes_per_line;
     }
 
-    for ( int i = 0; i < d.len; i += bytes_per_line )
+    for ( size_t i = 0; i < d.len; i += bytes_per_line )
     {
         if ( via == 0 )
         {
@@ -45,9 +46,9 @@ void paw_debug_bytes_type( data d, int via )
         {
             printf( ANSI_COLOR_GRAY "-- " ANSI_COLOR_RESET );
         }
-        printf( ANSI_COLOR_GRAY "%0.8x: " ANSI_COLOR_RESET, i );
+        printf( ANSI_COLOR_GRAY "%08zx: " ANSI_COLOR_RESET, i );
 
-        for ( x = 0; x < bytes_per_line; x++ )
+        for ( int x = 0; x < bytes_per_line; x++ )
         {
             if ( x % 4 == 0 && x > 0 )
             {
@@ -66,7 +67,7 @@ void paw_debug_bytes_type( data d, int via )
                 }
                 else
                 {
-                    printf( ANSI_COLOR_RED "%0.2x " ANSI_COLOR_RESET, current_byte );
+                    printf( ANSI_COLOR_RED "%02x " ANSI_COLOR_RESET, current_byte );
                 }
             }
         }
@@ -92,4 +93,76 @@ void paw_debug_bytes_type( data d, int via )
     }
 
     printf( "\n" );
+}
+
+static void paw_expand_cmd( char *out, size_t out_size, const char *tmpl, int pid,
+                            const char *script )
+{
+    char   pidstr[16];
+    size_t o = 0;
+
+    snprintf( pidstr, sizeof( pidstr ), "%d", pid );
+
+    for ( size_t i = 0; tmpl[i] && o < out_size - 1; )
+    {
+        const char *sub = NULL;
+        size_t      tok = 0;
+
+        if ( strncmp( &tmpl[i], "{pid}", 5 ) == 0 )
+        {
+            sub = pidstr;
+            tok = 5;
+        }
+        else if ( strncmp( &tmpl[i], "{script}", 8 ) == 0 )
+        {
+            sub = script;
+            tok = 8;
+        }
+
+        if ( sub )
+        {
+            while ( *sub && o < out_size - 1 )
+                out[o++] = *sub++;
+            i += tok;
+        }
+        else
+        {
+            out[o++] = tmpl[i++];
+        }
+    }
+
+    out[o] = '\0';
+}
+
+void paw_attach_n( process *p, char *cmds[], int n, char *terminal )
+{
+    char        cmd[1024];
+    const char *tmpl = terminal ? terminal : "tmux split-window -h 'gdb -p {pid} -x {script}'";
+
+    if ( !paw_argflag( "GDB" ) )
+        return;
+
+    FILE *f = fopen( "/tmp/paw_gdb", "w" );
+    if ( f )
+    {
+        fprintf( f, "handle SIGSTOP nostop noprint nopass\n" );
+        fprintf( f, "catch exec\n" );
+        fprintf( f, "continue\n" );
+
+        for ( int i = 0; i < n; i++ )
+            fprintf( f, "%s\n", cmds[i] );
+
+        fprintf( f, "continue\n" );
+
+        fclose( f );
+    }
+
+    paw_expand_cmd( cmd, sizeof( cmd ), tmpl, p->pid, "/tmp/paw_gdb" );
+
+    if ( system( cmd ) != 0 )
+    {
+        fprintf( stderr, ANSI_COLOR_RED "paw_attach: terminal command failed; "
+                                        "running without gdb\n" ANSI_COLOR_RESET );
+        kill( p->pid, SIGCONT );
+    }
 }
