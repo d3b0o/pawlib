@@ -3,18 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void setup( process *p )
-{
-    char *cmds[] = { "b main" };
-    paw_attach( p, cmds, NULL );
-}
-
 int main()
 {
     process *p   = paw_open_process( "./restaurant_patched" );
     p->log_level = 1;
-
-    setup( p );
 
     int rip_offset = 40;
 

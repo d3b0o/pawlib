@@ -2,17 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void setup( process *p )
-{
-    char *cmds[] = { "b main" };
-    paw_attach( p, cmds, NULL );
-}
-
 int main()
 {
     process *p = paw_open_process( "ls" );
-
-    setup( p );
 
     paw_recv( p, 2 );
     paw_recvuntil( p, "src" );
